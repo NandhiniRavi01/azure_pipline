@@ -5,7 +5,7 @@ function App() {
   return (
     <div className="App">
      <h1>Welcome my Auto deploy app</h1>
-     <P>thank you</P>
+     <p>thank you</p>
     </div>
   );
 }
