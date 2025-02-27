@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Node.js with React
 # Build a Node.js project that uses React.
 # Add steps that analyze code, save build artifacts, deploy, and more:
@@ -19,3 +20,40 @@ steps:
     npm install
     npm run build
   displayName: 'npm install and build'
+=======
+trigger:
+  - main  # Runs on every push to main branch
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+steps:
+  - checkout: self  # Fetches code from GitHub
+
+  - task: NodeTool@0
+    inputs:
+      versionSpec: '18.x'
+
+  - script: |
+      npm install
+      npm run build
+    displayName: "Install dependencies and build React app"
+
+  - task: ArchiveFiles@2
+    inputs:
+      rootFolderOrFile: 'build'
+      includeRootFolder: false
+      archiveType: 'zip'
+      archiveFile: '$(Build.ArtifactStagingDirectory)/build.zip'
+
+  - task: PublishBuildArtifacts@1
+    inputs:
+      pathToPublish: '$(Build.ArtifactStagingDirectory)'
+      artifactName: 'drop'
+
+  - task: AzureWebApp@1
+    inputs:
+      azureSubscription: 'YourAzureServiceConnection'
+      appName: 'your-react-webapp'
+      package: '$(Build.ArtifactStagingDirectory)/build.zip'
+>>>>>>> 16f69b4 (Updated App.js and added Azure pipeline config)
